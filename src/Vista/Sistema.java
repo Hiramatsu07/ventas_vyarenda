@@ -6,11 +6,14 @@ package Vista;
 
 import Modelo.Cliente;
 import Modelo.ClienteDao;
+import Modelo.Producto;
+import Modelo.ProductoDao;
 import Modelo.Proveedor;
 import Modelo.ProveedorDao;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
 /**
  *
@@ -21,10 +24,15 @@ public class Sistema extends javax.swing.JFrame {
     ClienteDao cldao = new ClienteDao();
     Proveedor pr = new Proveedor();
     ProveedorDao prdao = new ProveedorDao();
+    Producto prod = new Producto();
+    ProductoDao prodao = new ProductoDao();
     DefaultTableModel modelo = new DefaultTableModel();
     public Sistema() {
         initComponents();
         this.setLocationRelativeTo(null);
+        RucClienteTXT.setVisible(false);
+        AutoCompleteDecorator.decorate(ProveedorProductoCBX);
+        prodao.ConsultarProveedor(ProveedorProductoCBX);
     }
     public void ListarClientes(){
         List<Cliente> ListarCl = cldao.ListarCLiente();
@@ -58,6 +66,22 @@ public class Sistema extends javax.swing.JFrame {
         ProveedorTable.setModel(modelo);
     }
     
+    public void ListarProductos(){
+        List<Producto> ListarProd = prodao.ListarProducto();
+        modelo = (DefaultTableModel) ProductoTable.getModel();
+        Object[] ob  = new Object[6];
+        for(int i = 0; i < ListarProd.size(); i++){
+            ob[0] = ListarProd.get(i).getId();
+            ob[1] = ListarProd.get(i).getCodigo();
+            ob[2] = ListarProd.get(i).getDescripcion();
+            ob[3] = ListarProd.get(i).getStock();
+            ob[4] = ListarProd.get(i).getPrecio();
+            ob[5] = ListarProd.get(i).getProveedor();
+            modelo.addRow(ob);
+        }
+        ProductoTable.setModel(modelo);
+    }
+    
     public void LimpiarTable(){
         for (int i = 0; i < modelo.getRowCount(); i++){
             modelo.removeRow(i);
@@ -81,6 +105,14 @@ public class Sistema extends javax.swing.JFrame {
         RucProveedorTXT.setText("");
         DireccionProveedorTXT.setText("");
     }
+    
+    public void VaciarCamposProducto(){
+        IdProductoTXT.setText("");
+        DescripcionProductoTXT.setText("");
+        PrecioProductoTXT.setText("");
+        CantidadProductoTXT.setText("");
+        PrecioProductoTXT.setText("");
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -92,12 +124,12 @@ public class Sistema extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
-        nuevaventa_btn = new javax.swing.JButton();
-        clientes_btn = new javax.swing.JButton();
-        proveedores_btyn = new javax.swing.JButton();
-        productos_btn = new javax.swing.JButton();
-        ventas_btn = new javax.swing.JButton();
-        configuracion_btn = new javax.swing.JButton();
+        NuevaVentaBTN = new javax.swing.JButton();
+        ClientesBTN = new javax.swing.JButton();
+        ProveedoresBTN = new javax.swing.JButton();
+        ProductosBTN = new javax.swing.JButton();
+        VentasBTN = new javax.swing.JButton();
+        ConfiguracionBTN = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jTabbedPane1 = new javax.swing.JTabbedPane();
@@ -207,57 +239,56 @@ public class Sistema extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(0, 0, 153));
 
-        nuevaventa_btn.setBackground(new java.awt.Color(255, 255, 255));
-        nuevaventa_btn.setForeground(new java.awt.Color(51, 51, 51));
-        nuevaventa_btn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Nventa.png"))); // NOI18N
-        nuevaventa_btn.setText("Nueva Venta");
-        nuevaventa_btn.addActionListener(new java.awt.event.ActionListener() {
+        NuevaVentaBTN.setForeground(new java.awt.Color(51, 51, 51));
+        NuevaVentaBTN.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Nventa.png"))); // NOI18N
+        NuevaVentaBTN.setText("Nueva Venta");
+        NuevaVentaBTN.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                nuevaventa_btnActionPerformed(evt);
+                NuevaVentaBTNActionPerformed(evt);
             }
         });
 
-        clientes_btn.setBackground(new java.awt.Color(255, 255, 255));
-        clientes_btn.setForeground(new java.awt.Color(51, 51, 51));
-        clientes_btn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Clientes.png"))); // NOI18N
-        clientes_btn.setText("Clientes");
-        clientes_btn.addActionListener(new java.awt.event.ActionListener() {
+        ClientesBTN.setForeground(new java.awt.Color(51, 51, 51));
+        ClientesBTN.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Clientes.png"))); // NOI18N
+        ClientesBTN.setText("Clientes");
+        ClientesBTN.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                clientes_btnActionPerformed(evt);
+                ClientesBTNActionPerformed(evt);
             }
         });
 
-        proveedores_btyn.setBackground(new java.awt.Color(255, 255, 255));
-        proveedores_btyn.setForeground(new java.awt.Color(51, 51, 51));
-        proveedores_btyn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/proveedor.png"))); // NOI18N
-        proveedores_btyn.setText("Proveedores");
-        proveedores_btyn.setPreferredSize(new java.awt.Dimension(137, 56));
-        proveedores_btyn.addActionListener(new java.awt.event.ActionListener() {
+        ProveedoresBTN.setForeground(new java.awt.Color(51, 51, 51));
+        ProveedoresBTN.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/proveedor.png"))); // NOI18N
+        ProveedoresBTN.setText("Proveedores");
+        ProveedoresBTN.setPreferredSize(new java.awt.Dimension(137, 56));
+        ProveedoresBTN.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                proveedores_btynActionPerformed(evt);
+                ProveedoresBTNActionPerformed(evt);
             }
         });
 
-        productos_btn.setBackground(new java.awt.Color(255, 255, 255));
-        productos_btn.setForeground(new java.awt.Color(51, 51, 51));
-        productos_btn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/producto.png"))); // NOI18N
-        productos_btn.setText("Productos");
-        productos_btn.setPreferredSize(new java.awt.Dimension(123, 56));
-
-        ventas_btn.setBackground(new java.awt.Color(255, 255, 255));
-        ventas_btn.setForeground(new java.awt.Color(51, 51, 51));
-        ventas_btn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/compras.png"))); // NOI18N
-        ventas_btn.setText("Ventas");
-        ventas_btn.setPreferredSize(new java.awt.Dimension(102, 56));
-
-        configuracion_btn.setBackground(new java.awt.Color(255, 255, 255));
-        configuracion_btn.setForeground(new java.awt.Color(51, 51, 51));
-        configuracion_btn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/config.png"))); // NOI18N
-        configuracion_btn.setText("Configuración");
-        configuracion_btn.setPreferredSize(new java.awt.Dimension(143, 56));
-        configuracion_btn.addActionListener(new java.awt.event.ActionListener() {
+        ProductosBTN.setForeground(new java.awt.Color(51, 51, 51));
+        ProductosBTN.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/producto.png"))); // NOI18N
+        ProductosBTN.setText("Productos");
+        ProductosBTN.setPreferredSize(new java.awt.Dimension(123, 56));
+        ProductosBTN.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                configuracion_btnActionPerformed(evt);
+                ProductosBTNActionPerformed(evt);
+            }
+        });
+
+        VentasBTN.setForeground(new java.awt.Color(51, 51, 51));
+        VentasBTN.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/compras.png"))); // NOI18N
+        VentasBTN.setText("Ventas");
+        VentasBTN.setPreferredSize(new java.awt.Dimension(102, 56));
+
+        ConfiguracionBTN.setForeground(new java.awt.Color(51, 51, 51));
+        ConfiguracionBTN.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/config.png"))); // NOI18N
+        ConfiguracionBTN.setText("Configuración");
+        ConfiguracionBTN.setPreferredSize(new java.awt.Dimension(143, 56));
+        ConfiguracionBTN.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ConfiguracionBTNActionPerformed(evt);
             }
         });
 
@@ -267,14 +298,14 @@ public class Sistema extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(nuevaventa_btn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(clientes_btn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(proveedores_btyn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(ventas_btn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(productos_btn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(NuevaVentaBTN, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(ClientesBTN, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(ProveedoresBTN, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(VentasBTN, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(ProductosBTN, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(configuracion_btn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(ConfiguracionBTN, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 15, Short.MAX_VALUE))
@@ -284,17 +315,17 @@ public class Sistema extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(nuevaventa_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(NuevaVentaBTN, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(clientes_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(ClientesBTN, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(proveedores_btyn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(ProveedoresBTN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(productos_btn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(ProductosBTN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(ventas_btn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(VentasBTN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(configuracion_btn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(ConfiguracionBTN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(127, Short.MAX_VALUE))
         );
 
@@ -324,7 +355,7 @@ public class Sistema extends javax.swing.JFrame {
         jLabel8.setText("Stock disponible");
 
         EliminarBTN.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/eliminar.png"))); // NOI18N
-        EliminarBTN.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        EliminarBTN.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         EliminarBTN.setFocusPainted(false);
         EliminarBTN.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -368,7 +399,7 @@ public class Sistema extends javax.swing.JFrame {
         nombre_lbl.setText("NOMBRE");
 
         GenerarVentaBTN.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/print.png"))); // NOI18N
-        GenerarVentaBTN.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        GenerarVentaBTN.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         GenerarVentaBTN.setFocusPainted(false);
 
         jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/money.png"))); // NOI18N
@@ -492,7 +523,7 @@ public class Sistema extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Nueva Venta", jPanel2);
 
-        jPanel3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jPanel3.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         jLabel11.setText("CI/RUC");
 
@@ -828,6 +859,11 @@ public class Sistema extends javax.swing.JFrame {
         GuardarProductoBTN.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         GuardarProductoBTN.setIconTextGap(0);
         GuardarProductoBTN.setPreferredSize(new java.awt.Dimension(60, 60));
+        GuardarProductoBTN.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                GuardarProductoBTNActionPerformed(evt);
+            }
+        });
 
         ProductoTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -875,6 +911,12 @@ public class Sistema extends javax.swing.JFrame {
         jLabel24.setText("Precio");
 
         jLabel25.setText("Proveedor");
+
+        ProveedorProductoCBX.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                ProveedorProductoCBXFocusGained(evt);
+            }
+        });
 
         ExcelProductoBTN.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/excel.png"))); // NOI18N
         ExcelProductoBTN.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -1101,25 +1143,25 @@ public class Sistema extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void nuevaventa_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nuevaventa_btnActionPerformed
+    private void NuevaVentaBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NuevaVentaBTNActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_nuevaventa_btnActionPerformed
+    }//GEN-LAST:event_NuevaVentaBTNActionPerformed
 
-    private void clientes_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clientes_btnActionPerformed
+    private void ClientesBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ClientesBTNActionPerformed
         LimpiarTable();
         ListarClientes();
         jTabbedPane1.setSelectedIndex(1);
-    }//GEN-LAST:event_clientes_btnActionPerformed
+    }//GEN-LAST:event_ClientesBTNActionPerformed
 
-    private void proveedores_btynActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_proveedores_btynActionPerformed
+    private void ProveedoresBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ProveedoresBTNActionPerformed
         LimpiarTable();
         ListarProveedores();
         jTabbedPane1.setSelectedIndex(2);
-    }//GEN-LAST:event_proveedores_btynActionPerformed
+    }//GEN-LAST:event_ProveedoresBTNActionPerformed
 
-    private void configuracion_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_configuracion_btnActionPerformed
+    private void ConfiguracionBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConfiguracionBTNActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_configuracion_btnActionPerformed
+    }//GEN-LAST:event_ConfiguracionBTNActionPerformed
 
     private void CodigoVentaTXTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CodigoVentaTXTActionPerformed
         // TODO add your handling code here:
@@ -1285,6 +1327,34 @@ public class Sistema extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_EliminarProveedorBTNActionPerformed
 
+    private void GuardarProductoBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GuardarProductoBTNActionPerformed
+        if (!"".equals(CodigoProductoTXT.getText()) || !"".equals(DescripcionProductoTXT.getText()) || !"".equals(PrecioProductoTXT.getText()) || !"".equals(CantidadProductoTXT.getText()) || !"".equals(ProveedorProductoCBX.getSelectedItem())){
+            prod.setCodigo(CodigoProductoTXT.getText());
+            prod.setDescripcion(DescripcionProductoTXT.getText());
+            prod.setPrecio(Integer.parseInt(PrecioProductoTXT.getText()));
+            prod.setStock(Integer.parseInt(CantidadProductoTXT.getText()));
+            prod.setProveedor(ProveedorProductoCBX.getSelectedItem().toString());
+            prodao.RegistrarProducto(prod);
+            LimpiarTable();
+            ListarProductos();
+            VaciarCamposProducto();
+            JOptionPane.showMessageDialog(null, "Producto añadido satisfactoriamente");
+        }else{
+            JOptionPane.showMessageDialog(null, "Uno de los campos está vacíos");
+        }
+    }//GEN-LAST:event_GuardarProductoBTNActionPerformed
+
+    private void ProductosBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ProductosBTNActionPerformed
+        LimpiarTable();
+        ListarProductos();
+        jTabbedPane1.setSelectedIndex(3);
+    }//GEN-LAST:event_ProductosBTNActionPerformed
+
+    private void ProveedorProductoCBXFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_ProveedorProductoCBXFocusGained
+        ProveedorProductoCBX.removeAllItems();
+        prodao.ConsultarProveedor(ProveedorProductoCBX);
+    }//GEN-LAST:event_ProveedorProductoCBXFocusGained
+
     /**
      * @param args the command line arguments
      */
@@ -1325,8 +1395,10 @@ public class Sistema extends javax.swing.JFrame {
     private javax.swing.JTextField CantidadProductoTXT;
     private javax.swing.JTextField CantidadVentaTXT;
     private javax.swing.JTable ClienteTable;
+    private javax.swing.JButton ClientesBTN;
     private javax.swing.JTextField CodigoProductoTXT;
     private javax.swing.JTextField CodigoVentaTXT;
+    private javax.swing.JButton ConfiguracionBTN;
     private javax.swing.JTextField DescripcionProductoTXT;
     private javax.swing.JTextField DescripcionVentaTXT;
     private javax.swing.JTextField DireccionCVTXT;
@@ -1352,6 +1424,7 @@ public class Sistema extends javax.swing.JFrame {
     private javax.swing.JTextField NombreClienteTXT;
     private javax.swing.JTextField NombreProveedorTXT;
     private javax.swing.JTextField NombreVentaTXT;
+    private javax.swing.JButton NuevaVentaBTN;
     private javax.swing.JButton NuevoClienteBTN;
     private javax.swing.JButton NuevoProductoBTN;
     private javax.swing.JButton NuevoProveedorBTN;
@@ -1359,8 +1432,10 @@ public class Sistema extends javax.swing.JFrame {
     private javax.swing.JTextField PrecioProductoTXT;
     private javax.swing.JTextField PrecioVentaTXT;
     private javax.swing.JTable ProductoTable;
+    private javax.swing.JButton ProductosBTN;
     private javax.swing.JComboBox<String> ProveedorProductoCBX;
     private javax.swing.JTable ProveedorTable;
+    private javax.swing.JButton ProveedoresBTN;
     private javax.swing.JTextField RazonCVTXT;
     private javax.swing.JTextField RazonClienteTXT;
     private javax.swing.JTextField RazonProveedorTXT;
@@ -1372,8 +1447,7 @@ public class Sistema extends javax.swing.JFrame {
     private javax.swing.JTextField TelefonoVentaTXT;
     private javax.swing.JLabel TotalVentaLBL;
     private javax.swing.JTable VentaTable;
-    private javax.swing.JButton clientes_btn;
-    private javax.swing.JButton configuracion_btn;
+    private javax.swing.JButton VentasBTN;
     private javax.swing.JLabel dni_lbl;
     private javax.swing.JButton jButton17;
     private javax.swing.JLabel jLabel1;
@@ -1426,9 +1500,5 @@ public class Sistema extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField23;
     private javax.swing.JTextField jTextField24;
     private javax.swing.JLabel nombre_lbl;
-    private javax.swing.JButton nuevaventa_btn;
-    private javax.swing.JButton productos_btn;
-    private javax.swing.JButton proveedores_btyn;
-    private javax.swing.JButton ventas_btn;
     // End of variables declaration//GEN-END:variables
 }

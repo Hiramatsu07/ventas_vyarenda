@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 
 /**
@@ -23,7 +24,7 @@ public class ProductoDao {
     ResultSet rs;
     
     public boolean RegistrarProducto(Producto prod){
-        String sql = "INSERT INTO producos (codigo, descripcion, stock, precio, proveedor) VALUES (?,?,?,?,?)";
+        String sql = "INSERT INTO productos (codigo, descripcion, stock, precio, proveedor) VALUES (?,?,?,?,?)";
         try{
             con = cn.getConnection();
             ps = con.prepareStatement(sql);
@@ -48,7 +49,7 @@ public class ProductoDao {
     
     public List ListarProducto(){
         List<Producto> ListaProd = new ArrayList();
-        String sql = "SELECT * FROM PRODUCTOS";
+            String sql = "SELECT * FROM 'productos'";
         try{
             con = cn.getConnection();
             ps = con.prepareStatement(sql);
@@ -57,7 +58,7 @@ public class ProductoDao {
                 Producto prod = new Producto();
                 prod.setId(rs.getInt("id"));
                 prod.setCodigo(rs.getString("codigo"));
-                prod.setDescripcion(rs.getString("descripcion"));
+                prod.setDescripcion(rs.getString("nombre"));
                 prod.setStock(rs.getInt("stock"));
                 prod.setPrecio(rs.getInt("precio"));
                 prod.setProveedor(rs.getString("provedor"));   
@@ -89,7 +90,7 @@ public class ProductoDao {
     }
     
     public boolean ModificarProducto(Producto prod){
-        String sql = "UPDATE clientes SET codigo=?, descripcion=?, stock=?, precio=?, proveedor=? WHERE id=?";
+        String sql = "UPDATE productos SET codigo=?, descripcion=?, stock=?, precio=?, proveedor=? WHERE id=?";
         try{
             con = cn.getConnection();
             ps = con.prepareStatement(sql);
@@ -110,6 +111,20 @@ public class ProductoDao {
             }catch(SQLException e){
                 System.out.println(e.toString());
             }
+        }
+    }
+    
+    public void ConsultarProveedor(JComboBox proveedor){
+        String sql = "SELECT nombre FROM proveedores";
+        try{
+            con = cn.getConnection();
+            ps = con.prepareStatement(sql);
+            rs = ps.executeQuery();
+            while(rs.next()){
+                proveedor.addItem(rs.getString("nombre"));
+            }
+        }catch(SQLException e){  
+            System.out.println(e.toString());
         }
     }
 }
