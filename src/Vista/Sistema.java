@@ -14,6 +14,7 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
+import Reportes.Excel;
 
 /**
  *
@@ -70,6 +71,7 @@ public class Sistema extends javax.swing.JFrame {
         List<Producto> ListarProd = prodao.ListarProducto();
         modelo = (DefaultTableModel) ProductoTable.getModel();
         Object[] ob  = new Object[6];
+        modelo.setRowCount(0);
         for(int i = 0; i < ListarProd.size(); i++){
             ob[0] = ListarProd.get(i).getId();
             ob[1] = ListarProd.get(i).getCodigo();
@@ -108,10 +110,12 @@ public class Sistema extends javax.swing.JFrame {
     
     public void VaciarCamposProducto(){
         IdProductoTXT.setText("");
+        CodigoProductoTXT.setText("");
         DescripcionProductoTXT.setText("");
         PrecioProductoTXT.setText("");
         CantidadProductoTXT.setText("");
         PrecioProductoTXT.setText("");
+        ProveedorProductoCBX.setSelectedItem(null);
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -336,8 +340,6 @@ public class Sistema extends javax.swing.JFrame {
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/encabezado.png"))); // NOI18N
         jLabel2.setIconTextGap(0);
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 0, 1000, 180));
-
-        jTabbedPane1.setEnabled(false);
 
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel4.setText("Código");
@@ -846,12 +848,22 @@ public class Sistema extends javax.swing.JFrame {
         ActualizarProductoBTN.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Actualizar (2).png"))); // NOI18N
         ActualizarProductoBTN.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         ActualizarProductoBTN.setPreferredSize(new java.awt.Dimension(60, 60));
+        ActualizarProductoBTN.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ActualizarProductoBTNActionPerformed(evt);
+            }
+        });
 
         NuevoProductoBTN.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/nuevo.png"))); // NOI18N
         NuevoProductoBTN.setPreferredSize(new java.awt.Dimension(60, 60));
 
         EliminarProductoBTN.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/eliminar.png"))); // NOI18N
         EliminarProductoBTN.setPreferredSize(new java.awt.Dimension(60, 60));
+        EliminarProductoBTN.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EliminarProductoBTNActionPerformed(evt);
+            }
+        });
 
         GuardarProductoBTN.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/GuardarTodo.png"))); // NOI18N
         GuardarProductoBTN.setAlignmentY(0.0F);
@@ -879,6 +891,11 @@ public class Sistema extends javax.swing.JFrame {
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        ProductoTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                ProductoTableMouseClicked(evt);
             }
         });
         jScrollPane4.setViewportView(ProductoTable);
@@ -921,6 +938,11 @@ public class Sistema extends javax.swing.JFrame {
         ExcelProductoBTN.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/excel.png"))); // NOI18N
         ExcelProductoBTN.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         ExcelProductoBTN.setPreferredSize(new java.awt.Dimension(60, 60));
+        ExcelProductoBTN.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ExcelProductoBTNActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -1354,6 +1376,55 @@ public class Sistema extends javax.swing.JFrame {
         ProveedorProductoCBX.removeAllItems();
         prodao.ConsultarProveedor(ProveedorProductoCBX);
     }//GEN-LAST:event_ProveedorProductoCBXFocusGained
+
+    private void ProductoTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ProductoTableMouseClicked
+       int fila = ProductoTable.rowAtPoint(evt.getPoint());
+       IdProductoTXT.setText(ProductoTable.getValueAt(fila, 0).toString());
+       CodigoProductoTXT.setText(ProductoTable.getValueAt(fila, 1).toString());
+       DescripcionProductoTXT.setText(ProductoTable.getValueAt(fila, 2).toString());
+       PrecioProductoTXT.setText(ProductoTable.getValueAt(fila, 3).toString());
+       CantidadProductoTXT.setText(ProductoTable.getValueAt(fila, 4).toString());
+       ProveedorProductoCBX.setSelectedItem(ProductoTable.getValueAt(fila, 5).toString());
+    }//GEN-LAST:event_ProductoTableMouseClicked
+
+    private void ActualizarProductoBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActualizarProductoBTNActionPerformed
+        if ("".equals(IdProductoTXT.getText())){
+            JOptionPane.showMessageDialog(null, "Seleccione el producto a editar");
+        }else{
+            prod.setId(Integer.parseInt(IdProductoTXT.getText()));
+            prod.setCodigo(CodigoProductoTXT.getText());
+            prod.setDescripcion(DescripcionProductoTXT.getText());
+            prod.setPrecio(Integer.parseInt(PrecioProductoTXT.getText()));
+            prod.setStock(Integer.parseInt(CantidadProductoTXT.getText()));
+            prod.setProveedor(ProveedorProductoCBX.getSelectedItem().toString());
+            if(!"".equals(CodigoProductoTXT.getText()) && !"".equals(DescripcionProductoTXT.getText()) && !"".equals(DescripcionProductoTXT.getText())){
+                prodao.ModificarProducto(prod);
+                LimpiarTable();
+                VaciarCamposProducto();
+                ListarProductos();
+                JOptionPane.showMessageDialog(null, "Producto editado");
+            }else{
+                JOptionPane.showMessageDialog(null, "Los campos están vacíos");
+            }
+        }
+    }//GEN-LAST:event_ActualizarProductoBTNActionPerformed
+
+    private void EliminarProductoBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EliminarProductoBTNActionPerformed
+        if (!"".equals(IdProductoTXT.getText())){
+            int pregunta = JOptionPane.showConfirmDialog(null, "¿Eliminar producto?");
+            if (pregunta == 0){
+                int id = Integer.parseInt(IdProductoTXT.getText());
+                prodao.EliminarProducto(id);
+                LimpiarTable();
+                ListarProductos();
+                VaciarCamposProducto();
+            }
+        }
+    }//GEN-LAST:event_EliminarProductoBTNActionPerformed
+
+    private void ExcelProductoBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExcelProductoBTNActionPerformed
+        Excel.reporte();
+    }//GEN-LAST:event_ExcelProductoBTNActionPerformed
 
     /**
      * @param args the command line arguments

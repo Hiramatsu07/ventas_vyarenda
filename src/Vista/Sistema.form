@@ -206,9 +206,6 @@
       </Constraints>
     </Component>
     <Container class="javax.swing.JTabbedPane" name="jTabbedPane1">
-      <Properties>
-        <Property name="enabled" type="boolean" value="false"/>
-      </Properties>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
           <AbsoluteConstraints x="210" y="180" width="1160" height="550"/>
@@ -1181,6 +1178,9 @@
                   <Dimension value="[60, 60]"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ActualizarProductoBTNActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="NuevoProductoBTN">
               <Properties>
@@ -1201,6 +1201,9 @@
                   <Dimension value="[60, 60]"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="EliminarProductoBTNActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="GuardarProductoBTN">
               <Properties>
@@ -1276,6 +1279,9 @@
                       <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="ProductoTableMouseClicked"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>
@@ -1341,6 +1347,9 @@
                   <Dimension value="[60, 60]"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ExcelProductoBTNActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="IdProductoTXT">
             </Component>

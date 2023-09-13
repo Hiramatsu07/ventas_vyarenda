@@ -49,7 +49,7 @@ public class ProductoDao {
     
     public List ListarProducto(){
         List<Producto> ListaProd = new ArrayList();
-            String sql = "SELECT * FROM 'productos'";
+        String sql = "SELECT * FROM productos";
         try{
             con = cn.getConnection();
             ps = con.prepareStatement(sql);
@@ -58,10 +58,10 @@ public class ProductoDao {
                 Producto prod = new Producto();
                 prod.setId(rs.getInt("id"));
                 prod.setCodigo(rs.getString("codigo"));
-                prod.setDescripcion(rs.getString("nombre"));
+                prod.setDescripcion(rs.getString("descripcion"));
                 prod.setStock(rs.getInt("stock"));
                 prod.setPrecio(rs.getInt("precio"));
-                prod.setProveedor(rs.getString("provedor"));   
+                prod.setProveedor(rs.getString("proveedor"));
                 ListaProd.add(prod);
             }
         }catch(Exception e){
