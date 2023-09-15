@@ -47,18 +47,30 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Component id="NuevaVentaBTN" alignment="0" max="32767" attributes="0"/>
-              <Component id="ClientesBTN" alignment="0" max="32767" attributes="0"/>
-              <Component id="ProveedoresBTN" alignment="0" max="32767" attributes="0"/>
-              <Component id="VentasBTN" max="32767" attributes="0"/>
-              <Component id="ProductosBTN" alignment="0" max="32767" attributes="0"/>
               <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="ConfiguracionBTN" max="32767" attributes="0"/>
-              </Group>
-              <Group type="102" attributes="0">
-                  <Component id="jLabel3" min="-2" pref="195" max="-2" attributes="0"/>
-                  <EmptySpace min="0" pref="15" max="32767" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" attributes="0">
+                          <Component id="jLabel3" min="-2" pref="195" max="-2" attributes="0"/>
+                          <EmptySpace min="15" max="32767" attributes="0"/>
+                      </Group>
+                      <Group type="102" attributes="0">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="NuevaVentaBTN" alignment="0" max="32767" attributes="0"/>
+                              <Component id="ClientesBTN" alignment="0" max="32767" attributes="0"/>
+                              <Component id="ProveedoresBTN" alignment="0" max="32767" attributes="0"/>
+                              <Component id="VentasBTN" max="32767" attributes="0"/>
+                              <Component id="ProductosBTN" alignment="0" max="32767" attributes="0"/>
+                              <Component id="ConfiguracionBTN" alignment="0" max="32767" attributes="0"/>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
+                                  <Component id="VendedorLBL" min="-2" pref="163" max="-2" attributes="0"/>
+                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
               </Group>
           </Group>
         </DimensionLayout>
@@ -66,6 +78,8 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="1" attributes="0">
                   <Component id="jLabel3" min="-2" pref="160" max="-2" attributes="0"/>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <Component id="VendedorLBL" min="-2" pref="32" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="NuevaVentaBTN" min="-2" pref="56" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -78,7 +92,7 @@
                   <Component id="VentasBTN" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="ConfiguracionBTN" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="127" max="32767" attributes="0"/>
+                  <EmptySpace pref="83" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -159,6 +173,9 @@
               <Dimension value="[102, 56]"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="VentasBTNActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="ConfiguracionBTN">
           <Properties>
@@ -182,6 +199,14 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/Imagenes/logo.png"/>
             </Property>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="VendedorLBL">
+          <Properties>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="ff" green="ff" red="ff" type="rgb"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="VENDEDOR"/>
           </Properties>
         </Component>
       </SubComponents>
@@ -232,7 +257,7 @@
                           <Group type="102" alignment="0" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="dni_lbl" min="-2" max="-2" attributes="0"/>
-                                  <Component id="DniVentaTXT" min="-2" pref="140" max="-2" attributes="0"/>
+                                  <Component id="RucVentaTXT" min="-2" pref="140" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
@@ -249,11 +274,11 @@
                               </Group>
                               <EmptySpace pref="295" max="32767" attributes="0"/>
                               <Component id="GenerarVentaBTN" min="-2" pref="97" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
                               <Component id="jLabel9" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
-                              <Component id="TotalVentaLBL" min="-2" pref="49" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="54" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="TotalVentaLBL" min="-2" pref="126" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
@@ -273,7 +298,7 @@
                                           <Group type="102" alignment="0" attributes="0">
                                               <Component id="jLabel5" min="-2" pref="290" max="-2" attributes="0"/>
                                               <EmptySpace type="separate" max="-2" attributes="0"/>
-                                              <Component id="jLabel6" pref="210" max="32767" attributes="0"/>
+                                              <Component id="jLabel6" pref="203" max="32767" attributes="0"/>
                                           </Group>
                                       </Group>
                                       <EmptySpace max="-2" attributes="0"/>
@@ -281,10 +306,10 @@
                                           <Component id="jLabel7" min="-2" pref="130" max="-2" attributes="0"/>
                                           <Component id="PrecioVentaTXT" min="-2" pref="130" max="-2" attributes="0"/>
                                       </Group>
-                                      <EmptySpace min="45" max="32767" attributes="0"/>
+                                      <EmptySpace min="45" pref="6" max="32767" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="jLabel8" pref="224" max="32767" attributes="0"/>
-                                          <Component id="StockVentasTXT" max="32767" attributes="0"/>
+                                          <Component id="jLabel8" pref="216" max="32767" attributes="0"/>
+                                          <Component id="StockVentaTXT" max="32767" attributes="0"/>
                                       </Group>
                                       <EmptySpace type="separate" max="-2" attributes="0"/>
                                       <Component id="IdProTXT" min="-2" max="-2" attributes="0"/>
@@ -318,7 +343,7 @@
                                   <Component id="DescripcionVentaTXT" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="CantidadVentaTXT" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="PrecioVentaTXT" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="StockVentasTXT" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="StockVentaTXT" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="IdProTXT" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
@@ -338,7 +363,7 @@
                               </Group>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="DniVentaTXT" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="RucVentaTXT" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="NombreVentaTXT" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="TelefonoVentaTXT" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="DireccionCVTXT" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -348,12 +373,12 @@
                           <Group type="103" alignment="0" groupAlignment="1" attributes="0">
                               <Component id="GenerarVentaBTN" min="-2" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="TotalVentaLBL" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="TotalVentaLBL" alignment="3" min="-2" pref="29" max="-2" attributes="0"/>
                                   <Component id="jLabel9" alignment="3" min="-2" pref="29" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
-                      <EmptySpace pref="55" max="32767" attributes="0"/>
+                      <EmptySpace pref="56" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -406,6 +431,7 @@
             <Component class="javax.swing.JTextField" name="CodigoVentaTXT">
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="CodigoVentaTXTActionPerformed"/>
+                <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="CodigoVentaTXTKeyPressed"/>
               </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="DescripcionVentaTXT">
@@ -413,6 +439,7 @@
             <Component class="javax.swing.JTextField" name="CantidadVentaTXT">
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="CantidadVentaTXTActionPerformed"/>
+                <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="CantidadVentaTXTKeyPressed"/>
               </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="PrecioVentaTXT">
@@ -420,7 +447,7 @@
                 <Property name="editable" type="boolean" value="false"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="StockVentasTXT">
+            <Component class="javax.swing.JTextField" name="StockVentaTXT">
             </Component>
             <Container class="javax.swing.JScrollPane" name="jScrollPane1">
               <AuxValues>
@@ -429,7 +456,7 @@
 
               <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
               <SubComponents>
-                <Component class="javax.swing.JTable" name="jTable1">
+                <Component class="javax.swing.JTable" name="NuevaVentaTable">
                   <Properties>
                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                       <Table columnCount="5" rowCount="0">
@@ -486,7 +513,10 @@
                 <Property name="text" type="java.lang.String" value="NOMBRE"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="DniVentaTXT">
+            <Component class="javax.swing.JTextField" name="RucVentaTXT">
+              <Events>
+                <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="RucVentaTXTKeyPressed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="NombreVentaTXT">
             </Component>
@@ -500,6 +530,9 @@
                 </Property>
                 <Property name="focusPainted" type="boolean" value="false"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="GenerarVentaBTNActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel9">
               <Properties>

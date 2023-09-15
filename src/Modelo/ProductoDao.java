@@ -30,7 +30,7 @@ public class ProductoDao {
             ps = con.prepareStatement(sql);
             ps.setString(1, prod.getCodigo());
             ps.setString(2, prod.getDescripcion());
-            ps.setInt(3, prod.getStock());
+            ps.setInt(3, prod.getCantidad());
             ps.setInt(4, prod.getPrecio());
             ps.setString(5, prod.getProveedor());
             ps.execute();
@@ -59,7 +59,7 @@ public class ProductoDao {
                 prod.setId(rs.getInt("id"));
                 prod.setCodigo(rs.getString("codigo"));
                 prod.setDescripcion(rs.getString("descripcion"));
-                prod.setStock(rs.getInt("stock"));
+                prod.setCantidad(rs.getInt("stock"));
                 prod.setPrecio(rs.getInt("precio"));
                 prod.setProveedor(rs.getString("proveedor"));
                 ListaProd.add(prod);
@@ -96,7 +96,7 @@ public class ProductoDao {
             ps = con.prepareStatement(sql);
             ps.setString(1, prod.getCodigo());
             ps.setString(2, prod.getDescripcion());
-            ps.setInt(3, prod.getStock());
+            ps.setInt(3, prod.getCantidad());
             ps.setInt(4, prod.getPrecio());
             ps.setString(5, prod.getProveedor());
             ps.setInt(6, prod.getId());
@@ -126,5 +126,24 @@ public class ProductoDao {
         }catch(SQLException e){  
             System.out.println(e.toString());
         }
+    }
+    
+    public Producto BuscarProducto(String cod){
+        Producto prod = new Producto();
+        String sql = "SELECT * FROM PRODUCTOS WHERE CODIGO = ?";
+        try{
+            con = cn.getConnection();
+            ps = con.prepareStatement(sql);
+            ps.setString(1, cod);
+            rs = ps.executeQuery();
+            if(rs.next()){
+                prod.setDescripcion(rs.getString("descripcion"));
+                prod.setPrecio(rs.getInt("precio"));
+                prod.setCantidad(rs.getInt("stock"));
+            }
+        }catch(SQLException e){
+            System.out.println(e.toString());
+        }
+        return prod;
     }
 }
