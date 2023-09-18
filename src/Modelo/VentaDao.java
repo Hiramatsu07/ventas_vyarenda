@@ -19,6 +19,23 @@ public class VentaDao {
     PreparedStatement ps;
     ResultSet rs;
     int r;
+    
+    public int IdVenta(){
+        int id = 0;
+        String sql = "SELECT MAX(id) FROM VENTAS";
+        try {
+            con = cn.getConnection();
+            ps = con.prepareStatement(sql);
+            rs = ps.executeQuery();
+            if(rs.next()){
+                id = rs.getInt(1);
+            }
+        } catch (SQLException e){
+            
+        }
+        return id;
+    }
+    
     public int RegistrarVenta(Venta v){
         String sql = "INSERT INTO ventas (cliente, vendedor, total) VALUES(?,?,?)";
         try {
@@ -30,6 +47,34 @@ public class VentaDao {
             ps.execute();
         }catch(SQLException e){
             System.out.println(e.toString());
+         }finally{
+            try{
+                con.close();
+            } catch(SQLException e){
+                System.out.println(e.toString());
+            }
+        }
+        return r;
+    }
+    
+    public int RegistrarDetalle(Detalle d){
+        String sql = "INSERT INTO detalle (cod_prod, cantidad, precio, id_venta)";
+        try {
+            con = cn.getConnection();
+            ps = con.prepareStatement(sql);
+            ps.setString(1, d.getCod_prod());
+            ps.setInt(2, d.getCantidad());
+            ps.setInt(3, d.getPrecio());
+            ps.setInt(4, d.getId_venta());
+            ps.execute();
+        }catch(SQLException e){
+            System.out.println(e.toString());
+        }finally{
+            try{
+                con.close();
+            } catch(SQLException e){
+                System.out.println(e.toString());
+            }
         }
         return r;
     }

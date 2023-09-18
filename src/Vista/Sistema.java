@@ -6,6 +6,7 @@ package Vista;
 
 import Modelo.Cliente;
 import Modelo.ClienteDao;
+import Modelo.Detalle;
 import Modelo.Producto;
 import Modelo.ProductoDao;
 import Modelo.Proveedor;
@@ -34,6 +35,7 @@ public class Sistema extends javax.swing.JFrame {
     ProductoDao prodao = new ProductoDao();
     Venta v = new Venta();
     VentaDao vdao = new VentaDao();
+    Detalle d = new Detalle();
     DefaultTableModel modelo = new DefaultTableModel();
     int item;
     int totalpagar = 0;
@@ -1590,6 +1592,7 @@ public class Sistema extends javax.swing.JFrame {
 
     private void GenerarVentaBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GenerarVentaBTNActionPerformed
         RegistrarVenta();
+        RegistrarDetalle();
     }//GEN-LAST:event_GenerarVentaBTNActionPerformed
     
     private void RegistrarVenta(){
@@ -1600,6 +1603,20 @@ public class Sistema extends javax.swing.JFrame {
         v.setVendedor(vendedor);
         v.setTotal(monto);
         vdao.RegistrarVenta(v);
+    }
+    
+    private void RegistrarDetalle(){
+        int id = vdao.IdVenta();
+        for(int i = 0; i < VentaTable.getRowCount(); i++){
+            String cod = VentaTable.getValueAt(i, 0).toString();
+            int cant = Integer.parseInt(VentaTable.getValueAt(i, 2).toString());
+            int precio = Integer.parseInt(VentaTable.getValueAt(i, 3).toString());
+            d.setCod_prod(cod);
+            d.setCantidad(cant);
+            d.setPrecio(precio);
+            d.setId(id);
+            vdao.RegistrarDetalle(d);
+        }
     }
     /**
      * @param args the command line arguments
