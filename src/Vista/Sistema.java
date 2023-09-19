@@ -18,9 +18,16 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 import Reportes.Excel;
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfWriter;
+import java.awt.Font;
 import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
-import java.util.HashSet;
 
 /**
  *
@@ -37,6 +44,7 @@ public class Sistema extends javax.swing.JFrame {
     VentaDao vdao = new VentaDao();
     Detalle d = new Detalle();
     DefaultTableModel modelo = new DefaultTableModel();
+    DefaultTableModel tmp = new DefaultTableModel();
     int item;
     int totalpagar = 0;
     
@@ -46,7 +54,12 @@ public class Sistema extends javax.swing.JFrame {
         RucClienteTXT.setVisible(false);
         AutoCompleteDecorator.decorate(ProveedorProductoCBX);
         prodao.ConsultarProveedor(ProveedorProductoCBX);
+        IdProdTXT.setVisible(false);
+        IdVentaTXT.setVisible(false);
+        IdClienteTXT.setVisible(false);
+        IdProveedorTXT.setVisible(false);
     }
+    
     public void ListarClientes(){
         List<Cliente> ListarCl = cldao.ListarCLiente();
         modelo = (DefaultTableModel) ClienteTable.getModel();
@@ -131,6 +144,22 @@ public class Sistema extends javax.swing.JFrame {
         ProveedorProductoCBX.setSelectedItem(null);
     }
     
+    public void VaciarCamposClienteVenta(){
+        RucVentaTXT.setText("");
+        NombreVentaTXT.setText("");
+        TelefonoVentaTXT.setText("");
+        DireccionCVTXT.setText("");
+        RazonCVTXT.setText("");
+    }
+    
+    public void LimpiarVenta(){
+        CodigoVentaTXT.setText("");
+        DescripcionVentaTXT.setText("");
+        CantidadVentaTXT.setText("");
+        PrecioVentaTXT.setText("");
+        StockVentaTXT.setText("");
+    }
+    
     public void TotalPagar(){
         totalpagar = 0;
         int numFila = NuevaVentaTable.getRowCount();
@@ -193,7 +222,7 @@ public class Sistema extends javax.swing.JFrame {
         TelefonoVentaTXT = new javax.swing.JTextField();
         DireccionCVTXT = new javax.swing.JTextField();
         RazonCVTXT = new javax.swing.JTextField();
-        IdProTXT = new javax.swing.JTextField();
+        IdProdTXT = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
@@ -542,7 +571,7 @@ public class Sistema extends javax.swing.JFrame {
                                     .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, 216, Short.MAX_VALUE)
                                     .addComponent(StockVentaTXT))
                                 .addGap(18, 18, 18)
-                                .addComponent(IdProTXT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(IdProdTXT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(23, 23, 23)))
                         .addGap(18, 18, 18)
                         .addComponent(EliminarBTN)
@@ -567,7 +596,7 @@ public class Sistema extends javax.swing.JFrame {
                             .addComponent(CantidadVentaTXT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(PrecioVentaTXT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(StockVentaTXT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(IdProTXT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(IdProdTXT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(EliminarBTN, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -1534,7 +1563,7 @@ public class Sistema extends javax.swing.JFrame {
                 int stock = Integer.parseInt(StockVentaTXT.getText());
                 if(stock >= cant){
                     item = item + 1;
-                    modelo = (DefaultTableModel) NuevaVentaTable.getModel();
+                    tmp = (DefaultTableModel) NuevaVentaTable.getModel();
                     for(int i = 0; i < NuevaVentaTable.getRowCount();i++){
                         if(NuevaVentaTable.getValueAt(i, 1).equals(DescripcionVentaTXT.getText())){
                             JOptionPane.showMessageDialog(null, "El producto ya está registrado");
@@ -1554,10 +1583,11 @@ public class Sistema extends javax.swing.JFrame {
                     o[2] = lista.get(3);
                     o[3] = lista.get(4);
                     o[4] = lista.get(5);
-                    modelo.addRow(o);
-                    VentaTable.setModel(modelo);
+                    tmp.addRow(o);
+                    VentaTable.setModel(tmp);
                     TotalPagar();
                     VaciarCamposNuevaVenta();
+                    LimpiarVenta();
                     CodigoVentaTXT.requestFocus();
                 }else{
                     JOptionPane.showMessageDialog(null, "Stock no disponible");
@@ -1593,6 +1623,8 @@ public class Sistema extends javax.swing.JFrame {
     private void GenerarVentaBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GenerarVentaBTNActionPerformed
         RegistrarVenta();
         RegistrarDetalle();
+        ActualizarStock();
+        VaciarVentaTable();
     }//GEN-LAST:event_GenerarVentaBTNActionPerformed
     
     private void RegistrarVenta(){
@@ -1616,6 +1648,42 @@ public class Sistema extends javax.swing.JFrame {
             d.setPrecio(precio);
             d.setId(id);
             vdao.RegistrarDetalle(d);
+        }
+    }
+    
+    private void ActualizarStock(){
+        for(int i = 0; i < VentaTable.getRowCount(); i++){
+           String cod = VentaTable.getValueAt(i, 0).toString();
+           int cant = Integer.parseInt(VentaTable.getValueAt(i, 2).toString());
+           prod = prodao.BuscarProducto(cod);
+           int stock_actual=prod.getCantidad() - cant;
+           vdao.ActualizarStock(stock_actual, cod);
+        }
+    }
+    
+    private void VaciarVentaTable(){
+        tmp = (DefaultTableModel) VentaTable.getModel();
+        int fila = VentaTable.getRowCount();
+        for (int i = 0;  i < fila; i++){
+            tmp.removeRow(i);
+        }
+    }
+    
+    private void pdf(){
+        try {
+            FileOutputStream archivo;
+            File file = new File("src/pdf/venta.pdf");
+            archivo = new FileOutputStream(file);
+            Document doc = new Document();
+            PdfWriter.getInstance(doc, archivo);
+            doc.open();
+            Image img = Image.getInstance("src/img/logo_pdf.png");
+            Paragraph fech = new Paragraph();
+            Font negrita = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.BOLD, BaseColor.BLUE);
+            doc.close();
+            archivo.close();
+        } catch(Exception e) {
+            
         }
     }
     /**
@@ -1679,7 +1747,7 @@ public class Sistema extends javax.swing.JFrame {
     private javax.swing.JButton GuardarProductoBTN;
     private javax.swing.JButton GuardarProveedorBTN;
     private javax.swing.JTextField IdClienteTXT;
-    private javax.swing.JTextField IdProTXT;
+    private javax.swing.JTextField IdProdTXT;
     private javax.swing.JTextField IdProductoTXT;
     private javax.swing.JTextField IdProveedorTXT;
     private javax.swing.JTextField IdVentaTXT;

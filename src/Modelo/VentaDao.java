@@ -31,7 +31,7 @@ public class VentaDao {
                 id = rs.getInt(1);
             }
         } catch (SQLException e){
-            
+            System.out.println(e.toString());
         }
         return id;
     }
@@ -77,5 +77,22 @@ public class VentaDao {
             }
         }
         return r;
+    }
+    
+    public boolean ActualizarStock(int cant, String cod)
+    
+    {
+        String sql = "UPDATE productos SET stock = ? WHERE cod";
+        try {
+            con = cn.getConnection();
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, cant);
+            ps.setString(2, cod);
+            ps.execute();
+            return true;
+       }catch(SQLException e){
+           System.out.println(e.toString());
+           return false;
+       }
     }
 }

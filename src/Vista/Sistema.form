@@ -312,7 +312,7 @@
                                           <Component id="StockVentaTXT" max="32767" attributes="0"/>
                                       </Group>
                                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                                      <Component id="IdProTXT" min="-2" max="-2" attributes="0"/>
+                                      <Component id="IdProdTXT" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
@@ -344,7 +344,7 @@
                                   <Component id="CantidadVentaTXT" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="PrecioVentaTXT" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="StockVentaTXT" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="IdProTXT" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="IdProdTXT" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                           <Group type="102" alignment="1" attributes="0">
@@ -557,7 +557,7 @@
             </Component>
             <Component class="javax.swing.JTextField" name="RazonCVTXT">
             </Component>
-            <Component class="javax.swing.JTextField" name="IdProTXT">
+            <Component class="javax.swing.JTextField" name="IdProdTXT">
             </Component>
           </SubComponents>
         </Container>
