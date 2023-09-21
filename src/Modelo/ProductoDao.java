@@ -130,7 +130,7 @@ public class ProductoDao {
     
     public Producto BuscarProducto(String cod){
         Producto prod = new Producto();
-        String sql = "SELECT * FROM PRODUCTOS WHERE CODIGO = ?";
+        String sql = "SELECT * FROM productos WHERE codigo = ?";
         try{
             con = cn.getConnection();
             ps = con.prepareStatement(sql);
@@ -145,5 +145,27 @@ public class ProductoDao {
             System.out.println(e.toString());
         }
         return prod;
+    }
+    
+    public Configuracion BuscarDatos(){
+        Configuracion configuracion = new Configuracion ();
+        String sql = "SELET * FROM config";
+        try{
+            con = cn.getConnection();
+            ps = con.prepareStatement(sql);
+            rs = ps.executeQuery();
+            if(rs.next()){
+                configuracion.setId(rs.getInt("id"));
+                configuracion.setRuc(rs.getString("ruc"));
+                configuracion.setNombre(rs.getString("nombre"));
+                configuracion.setTelefono(rs.getInt("telefono"));
+                configuracion.setDireccion(rs.getString("direccion"));
+                configuracion.setRazon(rs.getString("razon"));
+                
+            }
+        }catch(SQLException e){
+            System.out.println(e.toString());
+        }
+        return configuracion;
     }
 }

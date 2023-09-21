@@ -84,7 +84,6 @@ public class Login extends javax.swing.JFrame {
         password_lbl.setForeground(new java.awt.Color(0, 0, 153));
         password_lbl.setText("Contraseña");
 
-        correo_txt.setBackground(new java.awt.Color(255, 255, 255));
         correo_txt.setText("user@example.com");
         correo_txt.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
@@ -180,7 +179,7 @@ public class Login extends javax.swing.JFrame {
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 610, 620));
 
-        lateral_lbl.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/login.jpg"))); // NOI18N
+        lateral_lbl.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/encabezado_vertical.jpg"))); // NOI18N
         lateral_lbl.setAlignmentX(0.5F);
         lateral_lbl.setIconTextGap(0);
         getContentPane().add(lateral_lbl, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, -220, 390, 890));

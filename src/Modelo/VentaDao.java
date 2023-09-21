@@ -8,6 +8,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -79,10 +81,8 @@ public class VentaDao {
         return r;
     }
     
-    public boolean ActualizarStock(int cant, String cod)
-    
-    {
-        String sql = "UPDATE productos SET stock = ? WHERE cod";
+    public boolean ActualizarStock(int cant, String cod){
+        String sql = "UPDATE productos SET stock = ? WHERE codigo = ?";
         try {
             con = cn.getConnection();
             ps = con.prepareStatement(sql);
@@ -94,5 +94,26 @@ public class VentaDao {
            System.out.println(e.toString());
            return false;
        }
+    }
+    
+    public List ListarVentas(){
+        List<Venta> ListaVenta = new ArrayList();
+        String sql = "SELECT * FROM ventas";
+        try{
+            con = cn.getConnection();
+            ps = con.prepareStatement(sql);
+            rs = ps.executeQuery();
+            while (rs.next()){
+                Venta v = new Venta();
+                v.setId(rs.getInt("id"));
+                v.setCliente(rs.getString("cliente"));
+                v.setVendedor(rs.getString("vendedor"));
+                v.setTotal(rs.getInt("total"));
+                ListaVenta.add(v);
+            }
+        }catch(SQLException e){
+            System.out.println(e.toString());
+        }
+        return ListaVenta;
     }
 }
